@@ -1,8 +1,9 @@
 '''
 作者zhangwenniu@163.com
 需要安装好python3+（本人用的是python3.7.0）在命令行中安装如下依赖包，即可使用。
-pip install -i https://pypi.tuna.tsinghua.edu.cn/simple requests pymupdf fitz
-
+pip install -i https://pypi.tuna.tsinghua.edu.cn/simple requests fitz
+特别注意，需要保证pdf
+pip install PyMuPDF==1.16.14
 '''
 
 import requests
@@ -100,11 +101,11 @@ unit1_urllist = [
 			'https://s3.ananas.chaoxing.com/doc/9c/5a/3b/359030b0e0c4e771da30870aa2d4325c/thumb/1.png', 
 			'https://s3.ananas.chaoxing.com/doc/91/32/f2/6149ef280e533fb965c7141a11cb0da2/thumb/1.png',]
 
-for i in range(len(unit1_urllist)):
-	url = unit1_urllist[i]
-	section = i + 1
-	unit = 1
-	download_one_url(url, unit, section)
+# for i in range(len(unit1_urllist)):
+# 	url = unit1_urllist[i]
+# 	section = i + 1
+# 	unit = 1
+# 	download_one_url(url, unit, section)
 
 unit2_urllist = [
 			'https://s3.ananas.chaoxing.com/doc/fa/8c/0d/be3af69b7ace3ad549276bc7a6696e80/thumb/1.png',
@@ -119,11 +120,11 @@ unit2_urllist = [
 			'https://s3.ananas.chaoxing.com/doc/ae/f3/08/821f4aa4d9c3ec03e1b3d3e4e52a21a9/thumb/1.png',			
 ]
 
-for i in range(len(unit2_urllist)):
-	url = unit2_urllist[i]
-	section = i + 1
-	unit = 2
-	download_one_url(url, unit, section)
+# for i in range(len(unit2_urllist)):
+# 	url = unit2_urllist[i]
+# 	section = i + 1
+# 	unit = 2
+# 	download_one_url(url, unit, section)
 
 
 unit3_urllist = [
@@ -140,8 +141,36 @@ unit3_urllist = [
 ]
 
 
-for i in range(len(unit3_urllist)):
-	url = unit3_urllist[i]
-	section = i + 1
-	unit = 3
-	download_one_url(url, unit, section)
+# for i in range(len(unit3_urllist)):
+# 	url = unit3_urllist[i]
+# 	section = i + 1
+# 	unit = 3
+# 	download_one_url(url, unit, section)
+
+unit4_urllist = [
+			'https://s3.ananas.chaoxing.com/doc/c1/e5/b7/5f20e67d81ebbec3289b6687c8867058/thumb/1.png', 
+			'https://s3.ananas.chaoxing.com/doc/52/44/25/1df16ef742e51c03499762d6a5666484/thumb/1.png',
+			'https://s3.ananas.chaoxing.com/doc/d3/06/3a/f2d6e9ea73a74fa831780e120d7c9dea/thumb/1.png',
+			'https://s3.ananas.chaoxing.com/doc/f8/11/a2/8e81d56e02ec56c684a547ae574458f5/thumb/1.png',
+			'https://s3.ananas.chaoxing.com/doc/bb/c7/0b/819136fd519611af2240cdff81fafe21/thumb/1.png',
+			'https://s3.ananas.chaoxing.com/doc/39/76/98/ebcd593e4f6df3a7e04702d31810ee6e/thumb/1.png',
+			'https://s3.ananas.chaoxing.com/doc/f0/b1/9d/3efded4d1d4bcf9a226a069ab51a72b8/thumb/1.png',
+			'https://s3.ananas.chaoxing.com/doc/a0/ef/4d/57fbc813e8df9697c18283433b5842fe/thumb/1.png',
+]
+
+
+# for i in range(len(unit4_urllist)):
+# 	url = unit4_urllist[i]
+# 	section = i + 1
+# 	unit = 4
+# 	download_one_url(url, unit, section)
+
+urls_list = [unit1_urllist, unit2_urllist, unit3_urllist, unit4_urllist]
+
+for unit_idx in range(0, len(urls_list)):
+	for section_idx in range(len(urls_list[unit_idx])):
+		url = urls_list[unit_idx][section_idx]
+		section = section_idx + 1
+		unit = unit_idx + 1
+		download_one_url(url, unit, section)
+
