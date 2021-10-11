@@ -4,6 +4,7 @@
 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple requests fitz
 特别注意，需要保证pdf
 pip install PyMuPDF==1.16.14
+另外特别注意，一定要先下载安装fitz，再安装PyMuPDF，否则会出现no module named frontend。
 '''
 
 import requests
@@ -31,9 +32,9 @@ def download_one_url(url, unit, section):
 		section = str(int(section)).zfill(2)
 
 	# 存储png文件的文件夹路径，改为自己的即可。
-	pic_folder = rf'C:\Users\TSG\Desktop\english\unit{unit}\{section}'
+	pic_folder = rf'C:\File\english\unit{unit}\{section}'
 	# 存储pdf文件的文件夹路径，改为自己的即可。
-	pdf_path = rf'C:\Users\TSG\Desktop\english\unit{unit}'
+	pdf_path = rf'C:\File\english\unit{unit}'
 	# 如果这两个文件夹还没有建好，就自动建立这两个文件夹。
 	if not os.path.exists(pdf_path):
 		os.makedirs(pdf_path)
@@ -48,7 +49,15 @@ def download_one_url(url, unit, section):
 		print(file)
 		# 修改url中的图片索引。
 		url = re.sub('\d{1,2}.png', f'{i}.png', url)
-		respond = requests.get(url)
+		# 下载的时候，时而服务器会卡顿。
+		# 等待五秒钟之后重新下载。如果连续五次都无法下载，只能重新检查哪里出了问题。
+		for retryTime in range(5):
+			try:
+				respond = requests.get(url)
+				break
+			except:
+				import time
+				time.sleep(5)
 		# 如果只有15张png图片，前几张respond都为200，下载到16.png的时候，respond就会变为404。
 		# 根据respond是否ok，判断是否已经结束了所有的下载。
 		if not respond.ok:
@@ -165,7 +174,21 @@ unit4_urllist = [
 # 	unit = 4
 # 	download_one_url(url, unit, section)
 
-urls_list = [unit1_urllist, unit2_urllist, unit3_urllist, unit4_urllist]
+unit5_urllist = [
+			'https://s3.ananas.chaoxing.com/doc/05/94/a9/f0357bf9f1fec28b31739cb9800c0508/thumb/1.png',
+			'https://s3.ananas.chaoxing.com/doc/00/b0/d3/8d4d741e809fdeb246720e8dc980ee4c/thumb/1.png',
+			'https://s3.ananas.chaoxing.com/doc/c3/9a/fc/713352f56b0332ebd925a2bcc5efc973/thumb/1.png',
+			'https://s3.ananas.chaoxing.com/doc/97/a6/47/5554661999a60019645436811fce2862/thumb/1.png',
+			'https://s3.ananas.chaoxing.com/doc/cf/9d/73/8aa683778c6e9519aeaff5df5d5d8c13/thumb/1.png',
+			'https://s3.ananas.chaoxing.com/doc/a3/01/03/633e5c44b60df57aaf8976fb1f935cd3/thumb/1.png',
+			'https://s3.ananas.chaoxing.com/doc/92/45/08/5f41968b5fed3e85d2971f4dbcb2da25/thumb/1.png',
+			'https://s3.ananas.chaoxing.com/doc/f3/34/81/1df5b4f9c06133278dae86c83cbe7eef/thumb/1.png',
+			'https://s3.ananas.chaoxing.com/doc/2f/bb/d2/4cb34c67b5d6c0bd9026e6fbd2b29b7c/thumb/1.png',
+]
+
+
+urls_list = [unit1_urllist, unit2_urllist, unit3_urllist, unit4_urllist, unit5_urllist]
+# urls_list = [[], [], [], [], unit5_urllist]
 
 for unit_idx in range(0, len(urls_list)):
 	for section_idx in range(len(urls_list[unit_idx])):
